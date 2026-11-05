@@ -535,6 +535,10 @@ export class UnwrappedEventTile extends React.Component<EventTileProps, IState> 
         }
 
         if (this.context.timelineRenderingType === TimelineRenderingType.ThreadsList) {
+            // Buttons in the tile (e.g. "View in room") handle their own click. Opening the thread as well
+            // would replace the threads list with the thread view.
+            if ((ev.target as Element).closest("button")) return;
+
             dis.dispatch<ShowThreadPayload>({
                 action: Action.ShowThread,
                 rootEvent: this.props.mxEvent,
